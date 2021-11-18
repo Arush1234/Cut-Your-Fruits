@@ -1,4 +1,3 @@
-//Game States
 var PLAY=1;
 var END=0;
 var gameState=1;
@@ -22,11 +21,9 @@ function preload(){
 }
 
 
-
 function setup() {
   createCanvas(600, 600);
-  
-  //creating sword
+
    knife=createSprite(40,200,20,20);
    knife.addImage(knifeImage);
    knife.scale=0.7
@@ -36,7 +33,6 @@ function setup() {
   //set collider for sword
   knife.setCollider("rectangle",0,0,40,40);
 
-  // Score variables and Groups
   score=0;
   fruitGroup=createGroup();
   monsterGroup=createGroup();
@@ -48,29 +44,17 @@ function draw() {
   
   if(gameState===PLAY){
     
-    //Call fruits and Monster function
     fruits();
     Monster();
-    
-    // Move sword with mouse
+
     knife.y=World.mouseY;
     knife.x=World.mouseX;
   
-    // Increase score if sword touching fruit
     if(fruitGroup.isTouching(knife)){
       fruitGroup.destroyEach();
       
-      // knifeSwooshSound.play();
-      // knifeSwooshSound.play;
-      // knifeSwooshSound();
-      // knifeSwooshSoundplay();
-
-
-      // score=score;
-      // score=+2;
-      // score=2;
-      // score=score+2;
-
+      knifeSwooshSound.play();
+      score=score+2;
     }
     else
     {
@@ -115,15 +99,26 @@ function Monster(){
 
 function fruits(){
   if(World.frameCount%80===0){
+    position = Math.round(random(1,2));
     fruit=createSprite(400,200,20,20);
-    fruit.x = 0    
-  //Increase the velocity of fruit after score 4 
-
-      // fruit.velocityX= (7+(score/4));
-      // fruit.velocityY= (7+(score));
-      // fruit.velocity= (7+(score/4));
-      // fruit.velocityX= (7);
-     
+    console.log(position)
+     //using random variable change the position of fruit, to make it more challenging
+    
+    if(position==1)
+    {
+    fruit.x=600;
+    fruit.velocityX=-(7+(score/4));
+    }
+    else
+    {
+      if(position==2){
+      fruit.x=0;
+      
+  //Increase the velocity of fruit after score 4 or 10
+      fruit.velocityX= (7+(score/4));
+      }
+    }
+    
     fruit.scale=0.2;
      //fruit.debug=true;
      r=Math.round(random(1,4));
